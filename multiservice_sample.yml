@@ -1,0 +1,17 @@
+root: ~/projects/
+wrapper: pushd {PATH} && source ./venv/bin/activate {COMMAND} && popd
+
+editor: vim
+
+# alias: directory
+services:
+  one: one-service
+  two: two-service
+  three: three-service
+
+commands:
+  status: git status
+  reset: git reset origin/develop --hard
+  pull: >
+    git checkout develop -q &&
+    git pull
