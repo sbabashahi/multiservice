@@ -1,0 +1,39 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "multiservice"
+author = "Viktor Chaptsev"
+author-email = "viktor@chaptsev.ru"
+
+[tool.flit.scripts]
+ms = "multiservice:app"
+
+[tool.flit.metadata.requires-extra]
+all = [
+  "typer",
+  "typer-cli",
+  "PyYAML",
+  "rich"
+]
+dev = [
+  "flit",
+  "isort",
+  "flake8",
+  "flake8-blind-except",
+  "flake8-broken-line",
+  "flake8-bugbear",
+  "flake8-builtins",
+  "flake8-commas",
+  "flake8-comprehensions",
+  "flake8-debugger",
+  "flake8-eradicate",
+  "flake8-isort",
+  "flake8-mock",
+  "flake8-mutable",
+  "flake8-pytest",
+  "flake8-quotes",
+  "flake8-string-format",
+  "flake8-variables-names"
+]
