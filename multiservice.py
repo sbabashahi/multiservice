@@ -1,6 +1,6 @@
-"""Multiservice"""
+"""Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 
 import os
@@ -23,7 +23,9 @@ def validate_config(config: Dict[str, Any]) -> None:
 
 
 def parse_config(path: str) -> Dict[str, Any]:
-    with open(path) as f:
+    full_path = os.path.expanduser(path)
+
+    with open(full_path) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
     validate_config(config)
@@ -60,7 +62,7 @@ def execute_for_services(command: str, services: List[str], config: Dict[str, An
 
 @app.command()
 def multiservice(
-    config_path: str = typer.Option('multiservice.yml', '--config', '-c'),  # noqa
+    config_path: str = typer.Option('~/.multiservice.yml', '--config', '-c'),  # noqa
     command: str = typer.Argument(...),  # noqa
     services: Optional[List[str]] = typer.Argument(None),  # noqa
 ) -> None:
