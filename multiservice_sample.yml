@@ -1,5 +1,5 @@
 root: ~/projects/
-wrapper: pushd {PATH} && source ./venv/bin/activate {COMMAND} && popd
+template: source ./venv/bin/activate && {COMMAND}
 
 editor: vim
 

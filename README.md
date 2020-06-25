@@ -46,7 +46,7 @@ Default path is `~/.multiservice.yml`, but you can specify a path using `--confi
 Config example:
 ```yaml
 root: ~/projects/
-template: source ./venv/bin/activate {COMMAND}
+template: source ./venv/bin/activate && {COMMAND}
 
 editor: vim
 
