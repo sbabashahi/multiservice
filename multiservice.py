@@ -11,7 +11,8 @@ import typer
 import yaml
 from rich import print
 
-REQUIRED_KEYS = ['root', 'wrapper', 'services', 'commands']
+REQUIRED_KEYS = ['root', 'services', 'commands']
+WRAPPER = 'pushd {PATH} > /dev/null && {COMMAND} && popd > /dev/null'
 
 app = typer.Typer()
 
@@ -40,8 +41,8 @@ def execute_for_services(command: str, services: List[str], config: Dict[str, An
     if command not in config['commands']:
         raise typer.BadParameter(f'Unknown command: "{command}"')
 
-    wrapper = config['wrapper'].strip()
     command_from_config = config['commands'][command].strip()
+    command_with_template = config['template'].strip().format(COMMAND=command_from_config)
 
     for service in services:
         service_dir = config['services'][service.upper()]
@@ -53,7 +54,7 @@ def execute_for_services(command: str, services: List[str], config: Dict[str, An
         )
 
         path = os.path.join(config['root'], service_dir)
-        wrapped_command = wrapper.format(PATH=path, COMMAND=command_from_config)
+        wrapped_command = WRAPPER.format(PATH=path, COMMAND=command_with_template)
 
         run(wrapped_command)
 
