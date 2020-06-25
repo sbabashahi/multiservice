@@ -1,6 +1,4 @@
-TODO
-
- # Multiservice
+# Multiservice
 
 Multiservice (`ms`) is a tool to run the same commands on multiple services.
 
@@ -20,11 +18,8 @@ $ multiservice [OPTIONS] COMMAND [SERVICES]...
 **Options**:
 
 * `-c, --config TEXT`: [default: ~/.multiservice.yml]
-* `COMMAND`: [required]
-* `[SERVICES]...`
-* `--install-completion`: Install completion for the current shell.
-* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
-* `--help`: Show this message and exit.
+* `COMMAND`: [required]: command name from the config
+* `[SERVICES]...`: a list of services aliases
 
 
 **Examples**:
@@ -36,7 +31,7 @@ $ ms status
 
 Run a command named `status` on some services:
 ```console
-$ ms status rs ls
+$ ms status as rs
 ```
 
 Edit the config file
@@ -55,6 +50,7 @@ template: source ./venv/bin/activate {COMMAND}
 
 editor: vim
 
+# alias: directory
 services:
   as: attributes-service
   rs: reports-service
