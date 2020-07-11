@@ -34,6 +34,11 @@ Run a command named `status` on some services:
 $ ms status as rs
 ```
 
+Execute custom script
+```console
+$ ms execute --execute 'git status && git diff' as rs
+```
+
 Edit the config file
 ```console
 $ ms edit

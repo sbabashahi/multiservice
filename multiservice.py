@@ -1,6 +1,6 @@
 """Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.3.2'
+__version__ = '1.4.0'
 
 
 import os
@@ -37,13 +37,17 @@ def run(command: str) -> None:
     subprocess.call(command, shell=True, executable=os.environ.get('SHELL', '/bin/sh'))
 
 
-def execute_for_services(command: str, services: List[str], config: Dict[str, Any]) -> None:
+def get_command_from_config(command: str, config: Dict[str, Any]) -> str:
     if command not in config['commands']:
         raise typer.BadParameter(f'Unknown command: "{command}"')
 
     command_from_config = config['commands'][command].strip()
     command_with_template = config['template'].strip().format(COMMAND=command_from_config)
 
+    return command_with_template
+
+
+def execute_for_services(command: str, code: str, services: List[str], config: Dict[str, Any]) -> None:
     for service in services:
         service_dir = config['services'][service.upper()]
         print(
@@ -54,7 +58,7 @@ def execute_for_services(command: str, services: List[str], config: Dict[str, An
         )
 
         path = os.path.join(config['root'], service_dir)
-        wrapped_command = WRAPPER.format(PATH=path, COMMAND=command_with_template)
+        wrapped_command = WRAPPER.format(PATH=path, COMMAND=code)
 
         run(wrapped_command)
 
@@ -64,6 +68,7 @@ def execute_for_services(command: str, services: List[str], config: Dict[str, An
 @app.command()
 def multiservice(
     config_path: str = typer.Option('~/.multiservice.yml', '--config', '-c'),  # noqa
+    custom_command: str = typer.Option('', '--execute', '-e'),  # noqa
     command: str = typer.Argument(...),  # noqa
     services: Optional[List[str]] = typer.Argument(None),  # noqa
 ) -> None:
@@ -75,8 +80,14 @@ def multiservice(
             raise typer.BadParameter('Please set "editor" in the config')
         return run(f'{editor} {config_path}')
 
+    elif command == 'execute':
+        code = custom_command
+
+    else:
+        code = get_command_from_config(command=command, config=config)
+
     services = services or list(config['services'])
-    execute_for_services(command=command, services=services, config=config)
+    execute_for_services(command=command, code=code, services=services, config=config)
 
 
 if __name__ == '__main__':
