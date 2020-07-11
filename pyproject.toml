@@ -6,6 +6,7 @@ build-backend = "flit_core.buildapi"
 module = "multiservice"
 author = "Viktor Chaptsev"
 author-email = "viktor@chaptsev.ru"
+description-file="README.md"
 
 [tool.flit.scripts]
 ms = "multiservice:app"
