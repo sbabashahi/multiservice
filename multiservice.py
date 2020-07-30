@@ -1,6 +1,6 @@
 """Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.4.1'
+__version__ = '1.5.0'
 
 
 import os
@@ -42,9 +42,11 @@ def get_command_from_config(command: str, config: Dict[str, Any]) -> str:
         raise typer.BadParameter(f'Unknown command: "{command}"')
 
     command_from_config = config['commands'][command].strip()
-    command_with_template = config['template'].strip().format(COMMAND=command_from_config)
+    return command_from_config
 
-    return command_with_template
+
+def wrap_command_in_template(command: str, config: Dict[str, Any]) -> str:
+    return config['template'].strip().format(COMMAND=command)
 
 
 def execute_for_services(command: str, code: str, services: List[str], config: Dict[str, Any]) -> None:
@@ -87,6 +89,7 @@ def multiservice(
         code = get_command_from_config(command=command, config=config)
 
     services = services or list(config['services'])
+    code = wrap_command_in_template(command=code, config=config)
     execute_for_services(command=command, code=code, services=services, config=config)
 
 
