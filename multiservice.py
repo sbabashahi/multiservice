@@ -1,6 +1,6 @@
 """Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.5.0'
+__version__ = '1.5.1'
 
 
 import os
@@ -52,7 +52,7 @@ def wrap_command_in_template(command: str, config: Dict[str, Any]) -> str:
 def execute_for_services(command: str, code: str, services: List[str], config: Dict[str, Any]) -> None:
     for service in services:
         service_dir = config['services'][service.upper()]
-        print(
+        print(  # noqa: T001
             '[bold cyan]Running[/bold cyan] '
             f'[bold magenta]{command}[bold magenta] '
             '[bold cyan]for:[/bold cyan] '
@@ -64,7 +64,7 @@ def execute_for_services(command: str, code: str, services: List[str], config: D
 
         run(wrapped_command)
 
-        print('\n')
+        print('\n')  # noqa: T001
 
 
 @app.command()

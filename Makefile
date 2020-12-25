@@ -2,7 +2,7 @@ requirements:
 	pip install -r requirements.txt
 
 isort:
-	isort -y
+	isort .
 
 flake8:
 	flake8 ./
