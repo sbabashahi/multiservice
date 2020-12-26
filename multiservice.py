@@ -51,7 +51,13 @@ def wrap_command_in_template(command: str, config: Dict[str, Any]) -> str:
 
 def execute_for_services(command: str, code: str, services: List[str], config: Dict[str, Any]) -> None:
     for service in services:
-        service_dir = config['services'][service.upper()]
+        if service in config['services']:
+            service_dir = config['services'][service]
+        elif service.upper() in config['services']:
+            service_dir = config['services'][service.upper()]
+        else:
+            raise typer.BadParameter(f'Service {service} not found')
+
         print(  # noqa: T001
             '[bold cyan]Running[/bold cyan] '
             f'[bold magenta]{command}[bold magenta] '
