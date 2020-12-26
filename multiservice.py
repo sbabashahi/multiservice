@@ -1,6 +1,6 @@
 """Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.5.1'
+__version__ = '1.6.0'
 
 
 import os
