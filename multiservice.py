@@ -1,6 +1,6 @@
 """Multiservice is a tool to affect multiple repositories simultaneously"""
 
-__version__ = '1.6.0'
+__version__ = '1.7.0'
 
 
 import os
@@ -66,7 +66,7 @@ def execute_for_services(command: str, code: str, services: List[str], config: D
         )
 
         path = os.path.join(config['root'], service_dir)
-        wrapped_command = WRAPPER.format(PATH=path, COMMAND=code)
+        wrapped_command = WRAPPER.format(PATH=path, COMMAND=code).format(SERVICE=service_dir)
 
         run(wrapped_command)
 
